@@ -1,5 +1,8 @@
 import { Sequelize } from "sequelize";
 
 export default new Sequelize(
-  process.env.DB_URL
+  process.env.DB_URL,
+  {
+    dialect: 'postgres'
+  }
 );
