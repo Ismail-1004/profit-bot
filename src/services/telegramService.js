@@ -2,15 +2,20 @@ import { Bot, Keyboard } from "grammy";
 import debtors from "../utils/debtors.js";
 import groups from "../utils/groups.js";
 import profit from "../utils/profit.js";
+import consumption from "../utils/consumption.js";
+import students from "../utils/students.js";
 
 const bot = new Bot(process.env.TOKEN);
 
 bot.command("start", async (ctx) => {
   const startKeyboard = new Keyboard()
+    .text("Ученики")
     .text("Группы")
-    .text("Должники")
     .row()
+    .text("Должники")
     .text("Прибыль")
+    .row()
+    .text("Расход")
     .resized();
 
   await ctx.reply(
@@ -22,11 +27,13 @@ bot.command("start", async (ctx) => {
   });
 });
 
-bot.hears(["Группы", "Должники", "Прибыль"], async (ctx) => {
+bot.hears(["Ученики", "Группы", "Должники", "Прибыль", "Расход"], async (ctx) => {
   const command = ctx.message.text.toLocaleLowerCase();
+  if (command === 'ученики') return students(ctx);
   if (command === 'группы') return groups(ctx);
   if (command === 'должники') return debtors(ctx);
   if (command === 'прибыль') return profit(ctx);
+  if (command === 'расход') return consumption(ctx);
 });
 
 bot.start();

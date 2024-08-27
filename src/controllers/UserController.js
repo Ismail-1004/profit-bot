@@ -3,13 +3,18 @@ import models from "../models/models.js";
 import { Op } from "sequelize";
 
 class UserController {
-  async getAllUsers () {
+  async getAllUsers() {
     try {
-      const users = await models.User.findAll()
-
+      const users = await models.User.findAll({
+        include: {
+          model: models.Group,
+          attributes: ["name", "course"],
+        }
+      });
+      
       return users;
-    } catch (e) {
-      throw e
+    } catch (e) {      
+      throw e;
     }
   }
 
@@ -22,12 +27,12 @@ class UserController {
           },
         },
         include: {
-            model: models.Group,
-            attributes: ['name', 'course']
-        }
+          model: models.Group,
+          attributes: ["name", "course"],
+        },
       });
 
-      return debtors
+      return debtors;
     } catch (e) {
       throw e;
     }
